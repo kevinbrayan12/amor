@@ -3,155 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego para Juneia</title>
+    <title>Agentek9 - Regalos Virtuales</title>
     <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="game-container">
-        <h1>TE AMO MUCHO REINA</h1>
-        <p>Haga clic en los corazones antes de que desaparezcan shii</p>
-        <p>Puntuación: <span id="score">0</span></p>
-        <p>Tiempo: <span id="time">30</span> s</p>
-        <button id="start-game">Iniciar Juego</button>
-        <div id="game"></div>
-        <p id="message"></p>
-        <a id="special-video" href="https://youtu.be/1n9d-f079Yk?si=dFGNXMvLW8e44Pg2" target="_blank" style="display: none;">🎥 Ver Video Especial 🎥</a>
-    </div>
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const gameContainer = document.getElementById("game");
-            const message = document.getElementById("message");
-            const startButton = document.getElementById("start-game");
-            const scoreDisplay = document.getElementById("score");
-            const timeDisplay = document.getElementById("time");
-            const videoButton = document.getElementById("special-video");
-            const messages = [
-                "Eres mi todo, Juneia ❤️",
-                "Cada día a tu lado es un regalo 🎁",
-                "Te amo más de lo que las palabras pueden decir 😘",
-                "Mi corazón es tuyo para siempre 💕",
-                "Eres la luz de mi vida ✨"
-            ];
-            let interval;
-            let score = 0;
-            let timeLeft = 30;
-            let timer;
-            
-            function updateScore() {
-                score += 10;
-                scoreDisplay.textContent = score;
-                if (score >= 100) {
-                    endGame();
-                }
-            }
-            
-            function startTimer() {
-                timeLeft = 30;
-                timeDisplay.textContent = timeLeft;
-                timer = setInterval(() => {
-                    timeLeft--;
-                    timeDisplay.textContent = timeLeft;
-                    if (timeLeft <= 0) {
-                        clearInterval(timer);
-                        clearInterval(interval);
-                        message.textContent = "¡Tiempo agotado bb! Inténtalo de nuevo.";
-                    }
-                }, 1000);
-            }
-            
-            function createHeart() {
-                const heart = document.createElement("div");
-                heart.classList.add("heart");
-                heart.style.left = Math.random() * 90 + "%";
-                heart.style.top = Math.random() * 90 + "%";
-                heart.addEventListener("click", () => {
-                    message.textContent = messages[Math.floor(Math.random() * messages.length)];
-                    updateScore();
-                    heart.remove();
-                });
-                gameContainer.appendChild(heart);
-                
-                setTimeout(() => heart.remove(), 2000);
-            }
-            
-            function startGame() {
-                gameContainer.innerHTML = "";
-                message.textContent = "";
-                score = 0;
-                scoreDisplay.textContent = score;
-                videoButton.style.display = "none";
-                clearInterval(interval);
-                clearInterval(timer);
-                startTimer();
-                interval = setInterval(createHeart, 1000);
-            }
-            
-            function endGame() {
-                clearInterval(timer);
-                clearInterval(interval);
-                message.textContent = "¡Felicidades, AMOR! Ahora puede ver su sorpresa 🎁";
-                videoButton.style.display = "block";
-            }
-            
-            startButton.addEventListener("click", () => {
-                startButton.style.display = "none";
-                startGame();
-            });
-        });
-    </script>
-    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-        
+        /* Diseño retro y optimizado */
         body {
+            background-color: #fce4ec;
             font-family: 'Press Start 2P', cursive;
             text-align: center;
-            background-color: #1a1a2e;
-            color: #fff;
+            animation: fadeIn 2s ease-in;
         }
-        .game-container {
-            margin-top: 50px;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        #game {
-            position: relative;
-            width: 400px;
-            height: 400px;
-            margin: auto;
-            border: 4px solid #ff007f;
-            background: linear-gradient(135deg, #ff6699, #ff3366);
-            overflow: hidden;
-            box-shadow: 0px 0px 15px #ff007f;
+        .hero {
+            background-color: #ff4081;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
-        .heart {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background-color: #ff0000;
-            clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 50% 80%, 20% 100%, 0% 35%);
-            cursor: pointer;
-            transition: transform 0.3s;
+        .plan-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 40px auto;
         }
-        .heart:hover {
+        .plan {
+            width: 80%;
+            max-width: 300px;
+            background: linear-gradient(135deg, #ff80ab, #ff4081);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #ff80ab;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #ff4081;
             transform: scale(1.2);
         }
-        button, a {
-            margin: 10px;
-            padding: 12px;
-            font-size: 16px;
-            background: linear-gradient(45deg, #ff007f, #ff3366);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Press Start 2P', cursive;
-            text-decoration: none;
-            display: inline-block;
+        #disponibilidad {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff4081;
         }
-        button:hover, a:hover {
-            background: linear-gradient(45deg, #ff3366, #ff007f);
-            box-shadow: 0px 0px 10px #ff007f;
+        /* Minijuego más complejo */
+        #game-container {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        canvas {
+            border: 2px solid #ff4081;
+            background-color: #f8bbd0;
         }
     </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>💖 Bienvenido a Agentek9 💖</h1>
+        <p>¡Sorprende a tu ser querido con una página web única y personalizada!</p>
+        <p>🎉 ¡Promoción especial de lanzamiento! El Plan Básico ahora a solo S/7 en lugar de S/10. ¡Aprovecha esta oferta limitada! 🎉</p>
+    </div>
+    <div class="plan-container">
+        <div class="plan">
+            <h2>💌 Básico - S/7</h2>
+            <p>📌 Incluye: Diseño sencillo y elegante, sin personalización avanzada.</p>
+            <p>📌 Duración: 5 horas de acceso.</p>
+            <a href="https://wa.me/51935062436" class="btn">Alquilar</a>
+        </div>
+        <div class="plan">
+            <h2>💘 Económico - S/20</h2>
+            <p>📌 Incluye: Diseño más detallado con opciones básicas de personalización.</p>
+            <p>📌 Duración: 6 horas de acceso.</p>
+            <a href="https://wa.me/51935062436" class="btn">Alquilar</a>
+        </div>
+        <div class="plan">
+            <h2>💝 Pro - S/30</h2>
+            <p>📌 Incluye: Diseño premium con personalización avanzada y efectos visuales.</p>
+            <p>📌 Duración: 10 horas de acceso.</p>
+            <a href="https://wa.me/51935062436" class="btn">Alquilar</a>
+        </div>
+    </div>
+    <div id="disponibilidad">
+        <h2>📢 Disponibilidad</h2>
+        <p>Webs disponibles: <span id="webs-disponibles">3</span></p>
+    </div>
+    <div id="game-container">
+        <h2>🎮 Gana una Web Gratis 🎮</h2>
+        <p>🏆 ¡Acumula 1,000,000 puntos para ganar una web gratuita!</p>
+        <canvas id="gameCanvas" width="300" height="300"></canvas>
+        <p id="game-status">Puntos: <span id="points">0</span></p>
+        <a id="claim-reward" href="https://wa.me/51935062436" class="btn" style="display:none;">Reclamar Web Gratis</a>
+    </div>
+    <script>
+        let points = 0;
+        let playerX = 140, playerY = 140;
+        let targetX = Math.random() * 250, targetY = Math.random() * 250;
+        let canvas = document.getElementById("gameCanvas");
+        let ctx = canvas.getContext("2d");
+        
+        function drawGame() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "blue";
+            ctx.fillRect(playerX, playerY, 20, 20);
+            ctx.fillStyle = "red";
+            ctx.fillRect(targetX, targetY, 15, 15);
+        }
+        
+        function movePlayer(event) {
+            if (event.key === "ArrowUp" && playerY > 0) playerY -= 10;
+            if (event.key === "ArrowDown" && playerY < 280) playerY += 10;
+            if (event.key === "ArrowLeft" && playerX > 0) playerX -= 10;
+            if (event.key === "ArrowRight" && playerX < 280) playerX += 10;
+            if (Math.abs(playerX - targetX) < 15 && Math.abs(playerY - targetY) < 15) {
+                points += 500;
+                targetX = Math.random() * 250;
+                targetY = Math.random() * 250;
+            }
+            document.getElementById("points").innerText = points;
+            if (points >= 1000000) {
+                document.getElementById("claim-reward").style.display = "inline-block";
+            }
+            drawGame();
+        }
+        
+        drawGame();
+        document.addEventListener("keydown", movePlayer);
+    </script>
+    <div class="tutorial">
+        <h2>Cómo Jugar</h2>
+        <p><strong>En PC:</strong> Usa las teclas de flecha para moverte y la barra espaciadora para disparar.</p>
+        <p><strong>En Celular:</strong> Usa los botones en pantalla para moverte y disparar.</p>
+        <p><strong>este jeugo estara disponible por 5 dias: </strong>Gana una web gratis elige tu plan</p>
+    </div>
 </body>
 </html>
