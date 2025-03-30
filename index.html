@@ -3,127 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Juenia 💛</title>
+    <title>¿Quieres ser mi novia?</title>
     <style>
         body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #fff8dc;
             font-family: Arial, sans-serif;
             text-align: center;
+            background-color: #ffccdc;
+            padding: 50px;
         }
-        .card-container {
-            position: relative;
-            width: 300px;
-            height: 200px;
-            perspective: 1000px;
-        }
-        .card {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            transform-style: preserve-3d;
-            transform: rotateY(0deg);
-            transition: transform 1s;
-        }
-        .card .front, .card .back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        .container {
             background: white;
-        }
-        .card .front {
-            background: #ffcc00;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .card .back {
-            transform: rotateY(180deg);
-            flex-direction: column;
             padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
         }
-        .flower {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin-bottom: 10px;
-            top: -50px;
+        h1 {
+            color: #e60073;
         }
-        .petal {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: yellow;
-            border-radius: 50%;
-        }
-        .petal:nth-child(1) { top: 5px; left: 30px; }
-        .petal:nth-child(2) { top: 25px; left: 10px; }
-        .petal:nth-child(3) { top: 25px; left: 50px; }
-        .petal:nth-child(4) { top: 45px; left: 30px; }
-        .center {
-            position: absolute;
-            top: 30px;
-            left: 35px;
-            width: 30px;
-            height: 30px;
-            background: orange;
-            border-radius: 50%;
-        }
-        .message {
+        button {
             font-size: 18px;
-            color: #b8860b;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .btn {
-            margin-top: 20px;
             padding: 10px 20px;
-            background-color: #ffcc00;
-            color: white;
+            margin: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
         }
-        .btn:hover {
-            background-color: #ffa500;
+        #yesBtn {
+            background-color: #ff4081;
+            color: white;
+        }
+        #noBtn {
+            background-color: #ccc;
+            color: black;
+            position: absolute;
+        }
+        #message {
+            display: none;
+            margin-top: 20px;
+        }
+        #sendBtn {
+            background-color: #4CAF50;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <div class="card-container" onclick="openCard()">
-        <div class="card" id="card">
-            <div class="front">Haz clic para abrir 💌</div>
-            <div class="back">
-                <div class="flower">
-                    <div class="petal"></div>
-                    <div class="petal"></div>
-                    <div class="petal"></div>
-                    <div class="petal"></div>
-                    <div class="center"></div>
-                </div>
-                <div class="message">
-                    <p>Juenia, mi amor 💛</p>
-                    <p>Hoy, en el Día de las Flores Amarillas, quiero recordarte cuánto iluminas mi vida. 🌻</p>
-                    <p>Así como esta flor florece para ti, mi amor por ti crece cada día más. Eres mi alegría y mi razón de sonreír.</p>
-                    <p>Te amo con todo mi corazón. 💛</p>
-                </div>
-                <button class="btn" onclick="window.location.href='https://youtu.be/Qz9gmiLBVFA?si=G9TqZiZcSk3WU6hI';">🎥 Video Sorpresa</button>
-            </div>
+    <div class="container">
+        <h1>¿Quieres ser mi novia?</h1>
+        <button id="yesBtn" onclick="showMessage()">Sí</button>
+        <button id="noBtn" onmouseover="moveButton()">No</button>
+        <div id="message">
+            <p>Sabía que sentías atracción por mí. Te agradezco por elegirme. Quiero empezar a conocerte poco a poco. ¡Muchas gracias!</p>
+            <input type="text" id="reason" placeholder="Escribe por qué dijiste sí">
+            <button id="sendBtn" onclick="sendToWhatsApp()">Enviar Respuesta</button>
         </div>
     </div>
+
     <script>
-        function openCard() {
-            document.getElementById("card").style.transform = "rotateY(180deg)";
+        function showMessage() {
+            document.getElementById("message").style.display = "block";
+        }
+
+        function moveButton() {
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = Math.random() * (window.innerHeight - 100);
+            document.getElementById("noBtn").style.left = x + "px";
+            document.getElementById("noBtn").style.top = y + "px";
+        }
+
+        function sendToWhatsApp() {
+            let reason = document.getElementById("reason").value;
+            let phoneNumber = "912725938";
+            let message = encodeURIComponent("Te dije 'sí' porque, " + reason);
+            window.location.href = "https://wa.me/" + phoneNumber + "?text=" + message;
         }
     </script>
 </body>
