@@ -3,81 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¿Quieres ser mi novia?</title>
+    <title>Conexión de Amor ❤️</title>
     <style>
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #ffccdc;
-            padding: 50px;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
         }
+
+        /* Container */
         .container {
-            background: white;
+            width: 100%;
+            max-width: 400px;
+            background-color: white;
             padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            display: inline-block;
+            text-align: center;
+            margin-bottom: 20px;
         }
-        h1 {
-            color: #e60073;
+
+        h2 {
+            color: #ff3366;
+            font-size: 24px;
         }
-        button {
-            font-size: 18px;
-            padding: 10px 20px;
-            margin: 10px;
+
+        input, button, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        .messages-container {
+            height: 250px;
+            overflow-y: scroll;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .message {
+            margin-bottom: 10px;
+        }
+
+        .message span {
+            font-weight: bold;
+            color: #ff3366;
+        }
+
+        .message p {
+            margin: 0;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
+
+        .btn {
+            background-color: #ff3366;
+            color: white;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
-        #yesBtn {
-            background-color: #ff4081;
+
+        .btn:hover {
+            background-color: #ff1a47;
+        }
+
+        .config-btn {
+            background-color: #ff6666;
             color: white;
+            padding: 8px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
         }
-        #noBtn {
-            background-color: #ccc;
-            color: black;
-            position: absolute;
-        }
-        #message {
-            display: none;
-            margin-top: 20px;
-        }
-        #sendBtn {
-            background-color: #4CAF50;
-            color: white;
+
+        /* Mobile responsive styles */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            input, button, textarea {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>¿Quieres ser mi novia?</h1>
-        <button id="yesBtn" onclick="showMessage()">Sí</button>
-        <button id="noBtn" onmouseover="moveButton()">No</button>
-        <div id="message">
-            <p>Sabía que sentías atracción por mí. Te agradezco por elegirme. Quiero empezar a conocerte poco a poco. ¡Muchas gracias!</p>
-            <input type="text" id="reason" placeholder="Escribe por qué dijiste sí">
-            <button id="sendBtn" onclick="sendToWhatsApp()">Enviar Respuesta</button>
-        </div>
-    </div>
 
-    <script>
-        function showMessage() {
-            document.getElementById("message").style.display = "block";
-        }
+<!-- Sección de login -->
+<div id="login-container" class="container">
+    <h2>Iniciar Sesión</h2>
+    <input type="text" id="username" placeholder="Usuario" />
+    <input type="password" id="password" placeholder="Contraseña" />
+    <button class="btn" onclick="login()">Entrar</button>
+    <p id="error" class="error-message"></p>
+</div>
 
-        function moveButton() {
-            let x = Math.random() * (window.innerWidth - 100);
-            let y = Math.random() * (window.innerHeight - 100);
-            document.getElementById("noBtn").style.left = x + "px";
-            document.getElementById("noBtn").style.top = y + "px";
-        }
+<!-- Sección del chat -->
+<div id="chat-container" class="container" style="display:none;">
+    <h2>Chat de Amor 💌</h2>
+    <div id="messages-container" class="messages-container"></div>
+    <textarea id="message-input" placeholder="Escribe tu mensaje..." rows="4"></textarea>
+    <button class="btn" onclick="sendMessage()">Enviar Mensaje</button>
+    <button class="config-btn" onclick="showSettings()">Configuración</button>
+</div>
 
-        function sendToWhatsApp() {
-            let reason = document.getElementById("reason").value;
-            let phoneNumber = "912725938";
-            let message = encodeURIComponent("Te dije 'sí' porque, " + reason);
-            window.location.href = "https://wa.me/" + phoneNumber + "?text=" + message;
-        }
-    </script>
+<!-- Sección de configuración -->
+<div id="settings-container" class="container" style="display:none;">
+    <h2>Configuración</h2>
+    <input type="text" id="new-username" placeholder="Nuevo nombre de usuario" />
+    <button class="btn" onclick="saveSettings()">Guardar Configuración</button>
+    <button class="config-btn" onclick="logout()">Cerrar sesión</button>
+</div>
+
+<!-- Cargar Firebase desde CDN -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+// Configuración de Firebase
+var firebaseConfig = {
+    apiKey: "AIzaSyC5ZmZ08hddNTthlxeiLtV0rd8QrksOFnc",
+    authDomain: "amor-932c1.firebaseapp.com",
+    projectId: "amor-932c1",
+    storageBucket: "amor-932c1.firebasestorage.app",
+    messagingSenderId: "970209269031",
+    appId: "1:970209269031:web:ff6c1e246d49102ae18502",
+    measurementId: "G-HYJ7KTQQ0M"
+};
+
+// Inicializar Firebase
+firebase.initializeApp(firebaseConfig);
+var database = firebase.database();
+
+// Definir los usuarios y contraseñas predeterminados
+var users = {
+    juni13: "tokyo",
+    kevin12: "rata123"
+};
+
+// Variables de estado
+var username = localStorage.getItem('username') || "Usuario";
+var messagesRef = firebase.database().ref('messages'); // Referencia a la base de datos de mensajes
+
+// Verificar si ya está logueado al cargar la página
+window.onload = function() {
+    if (localStorage.getItem('loggedUser')) {
+        var loggedUser = localStorage.getItem('loggedUser');
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('chat-container').style.display = 'block';
+        loadMessages();
+    } else {
+        document.getElementById('login-container').style.display = 'block';
+    }
+};
+
+// Función para verificar el inicio de sesión
+function login() {
+    var usernameInput = document.getElementById('username').value.trim();
+    var passwordInput = document.getElementById('password').value.trim();
+
+    if (users[usernameInput] && users[usernameInput] === passwordInput) {
+        localStorage.setItem('loggedUser', usernameInput);
+        localStorage.setItem('username', usernameInput);
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('chat-container').style.display = 'block';
+        loadMessages();
+    } else {
+        document.getElementById('error').textContent = "Usuario o contraseña incorrectos.";
+    }
+}
+
+// Mostrar los mensajes en tiempo real
+function loadMessages() {
+    var messagesContainer = document.getElementById('messages-container');
+    messagesRef.on('child_added', function(snapshot) {
+        var msg = snapshot.val();
+        var msgElement = document.createElement('div');
+        msgElement.classList.add('message');
+        msgElement.innerHTML = `<span>${msg.sender}:</span><p>${msg.text}</p>`;
+        messagesContainer.appendChild(msgElement);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    });
+}
+
+// Enviar mensaje
+function sendMessage() {
+    var messageInput = document.getElementById('message-input');
+    var message = messageInput.value.trim();
+
+    if (message) {
+        var newMessage = {
+            sender: username,
+            text: message
+        };
+
+        // Enviar mensaje a Firebase
+        firebase.database().ref('messages/' + Date.now()).set(newMessage);
+        messageInput.value = '';
+    }
+}
+
+// Mostrar la configuración
+function showSettings() {
+    document.getElementById('chat-container').style.display = 'none';
+    document.getElementById('settings-container').style.display = 'block';
+}
+
+// Guardar la configuración
+function saveSettings() {
+    var newUsername = document.getElementById('new-username').value.trim();
+    if (newUsername) {
+        localStorage.setItem('username', newUsername);
+        username = newUsername;
+        document.getElementById('settings-container').style.display = 'none';
+        document.getElementById('chat-container').style.display = 'block';
+    }
+}
+
+// Cerrar sesión
+function logout() {
+    localStorage.removeItem('loggedUser');
+    localStorage.removeItem('username');
+    document.getElementById('login-container').style.display = 'block';
+    document.getElementById('chat-container').style.display = 'none';
+}
+</script>
+
 </body>
 </html>
